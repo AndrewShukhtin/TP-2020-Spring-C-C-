@@ -18,7 +18,6 @@ int longest_arith_seq(const int *const arr, size_t size, int **arth_seq) {
   size_t *len_table = NULL;
   int step = 0;
   if (compute_len_table(arr, size, &len_table, &step)) {
-    free(len_table);
     return INVALID_LENGTH;
   }
 
@@ -37,6 +36,7 @@ int longest_arith_seq(const int *const arr, size_t size, int **arth_seq) {
   if (compute_arth_seq(arth_seq, max_len, arr[max_idx], step)) {
     return INVALID_LENGTH;
   }
+
   return max_len;
 }
 
@@ -58,9 +58,10 @@ static int compute_len_table(const int *const arr, size_t size, size_t **len_tab
       int diff = arr[j] - arr[i];
       for (size_t k = 0; k < i; ++k) {
         if (arr[i] - arr[k] == diff) {
-          (*len_table)[i * (size - i) + j] = max((*len_table)[k * (size - k) + i] + 1, (*len_table)[i * (size - i) + j]);
+          (*len_table)[i * (size - i) + j]
+            = max((*len_table)[k * (size - k) + i] + 1, (*len_table)[i * (size - i) + j]);
           *step = diff;
-        } 
+        }
       }
     }
   }
@@ -80,6 +81,7 @@ static int find_max_in_len_table(const size_t *const len_table, size_t size, siz
   if (!len_table || !max_val || !max_idx) {
     return EXIT_FAILURE;
   }
+
   size_t max_len = 0;
   size_t idx = 0;
   for (size_t i = 0; i < size; ++i) {
@@ -99,7 +101,7 @@ static int find_max_in_len_table(const size_t *const len_table, size_t size, siz
 static int min_len_case(const int *const arr, size_t max_len, int **arth_seq) {
   if (!arr || max_len != MIN_LENGTH) {
     return EXIT_FAILURE;
-  } 
+  }
 
   *arth_seq = (int *)calloc(max_len, sizeof(int));
   if (!*arth_seq) {
@@ -121,8 +123,8 @@ static int compute_arth_seq(int **arth_seq, size_t max_len, int last_elem, int s
   if (!*arth_seq) {
     return EXIT_FAILURE;
   }
-  
-  for (int i = max_len - 1; i >= 0; --i){
+
+  for (int i = max_len - 1; i >= 0; --i) {
     (*arth_seq)[i] = last_elem  - step * (max_len - 1 - i);
   }
 

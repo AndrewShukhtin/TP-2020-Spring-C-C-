@@ -1,0 +1,6 @@
+test*
+.vscode
+*.DS_Store
+*.swp
+*.out
+Makefile
