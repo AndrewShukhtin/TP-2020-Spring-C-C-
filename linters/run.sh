@@ -16,6 +16,6 @@ fi
 ${CPPCHECK} project --enable=all --error-exitcode=1 -I project/longest_arth_seq --suppress=missingIncludeSystem # --check-config
 
 print_header "RUN cpplint.py"
-python2.7 ./linters/cpplint/cpplint.py --extensions=c project/longest_arth_seq/* project/longest_arth_seq/*
+python2.7 ./linters/cpplint/cpplint.py --extensions=c,cpp project/longest_arth_seq/* project/longest_arth_seq/*
 
 print_header "SUCCESS"
