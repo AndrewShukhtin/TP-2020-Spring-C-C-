@@ -4,4 +4,4 @@
 *.out
 Makefile
 project/longest_arth_seq/main.c
-build/
+build*/
