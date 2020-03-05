@@ -45,21 +45,20 @@ static int compute_len_table(const int *const arr, size_t size, size_t **len_tab
     return EXIT_FAILURE;
   }
 
-  size_t number_of_non_zeros = size * size - size * (size - 1) / 2;
-  *len_table = (size_t *)calloc(number_of_non_zeros, sizeof(size_t));
+  *len_table = (size_t *)calloc(size * size, sizeof(size_t));
   if (!*len_table) {
     return EXIT_FAILURE;
   }
 
   for (size_t i = 0; i < size; ++i) {
-    (*len_table)[i * (size - i) + i] = 1;
+    (*len_table)[i * size + i] = 1;
     for (size_t j = i + 1; j < size; ++j) {
-      (*len_table)[i * (size - i) + j] = 2;
+      (*len_table)[i * size + j] = 2;
       int diff = arr[j] - arr[i];
-      for (size_t k = 0; k < i; ++k) {
+      for (size_t k = 0; k < j; ++k) {
         if (arr[i] - arr[k] == diff) {
-          (*len_table)[i * (size - i) + j]
-            = max((*len_table)[k * (size - k) + i] + 1, (*len_table)[i * (size - i) + j]);
+          (*len_table)[i * size + j]
+            = max((*len_table)[i * size + j], (*len_table)[k * size  + i] + 1 );
           *step = diff;
         }
       }
@@ -86,8 +85,8 @@ static int find_max_in_len_table(const size_t *const len_table, size_t size, siz
   size_t idx = 0;
   for (size_t i = 0; i < size; ++i) {
     for (size_t j = i + 1; j < size; ++j) {
-      if (max_len < len_table[i * (size - i) + j]) {
-        max_len = len_table[i * (size - i) + j];
+      if (max_len < len_table[i * size + j]) {
+        max_len = len_table[i * size + j];
         idx = j;
       }
     }
