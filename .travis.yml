@@ -34,6 +34,7 @@ script:
     - cmake .
     - make || travis_terminate 1
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./test_longest_arth_seq.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./test_parse_input.out || travis_terminate 1
 
 after_script:
     - lcov —capture —directory ./CMakeFiles/task_library.dir/project/src —output-file coverage.info
