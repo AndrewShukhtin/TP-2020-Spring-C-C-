@@ -15,10 +15,15 @@ TEST(ParseInput, leetCodeEx1) {
   }
 
   size_t size = 0;
-  int *arr = NULL;
-  if (get_array_from_input(&arr, &size)) {
+  if (read_size_from_input(&size)) {
     FAIL();
   }
+
+  int *arr = NULL;
+  if (read_array_from_input(&arr, size)) {
+    FAIL();
+  }
+
   size_t expected_size = 4;
   EXPECT_EQ(expected_size, size);
 
@@ -37,11 +42,9 @@ TEST(ParseInput, invalidSize) {
   }
 
   size_t size = 0;
-  int *arr = NULL;
-  int res = get_array_from_input(&arr, &size); 
+  int res = read_size_from_input(&size); 
   EXPECT_EQ(res, EXIT_FAILURE);
 
-  free(arr);
   fclose(input_file);
 }
 
@@ -52,8 +55,11 @@ TEST(LongestArthSeq, corruptedData) {
   }
 
   size_t size = 0;
+  int res = read_size_from_input(&size); 
+  EXPECT_EQ(res, EXIT_SUCCESS);
+
   int *arr = NULL;
-  int res = get_array_from_input(&arr, &size); 
+  res = read_array_from_input(&arr, size);
   EXPECT_EQ(res, EXIT_FAILURE);
 
   free(arr);

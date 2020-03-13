@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 
-int get_array_from_input(int **arr, size_t *size);
+int read_size_from_input(size_t *size);
+int read_array_from_input(int **arr, size_t size);
 
 #endif  // PROJECT_PARSER_PARSE_INPUT_H_
