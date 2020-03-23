@@ -37,8 +37,8 @@ before_script:
     - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
     - cd ..
     - echo "test1.txt 3 24"| ./build/test_generator.out
-    - echo "test2.txt 3 8388608" | ./build/test_generator.out
-    - echo "test3.txt 3 33554432" | ./build/test_generator.out
+    - echo "test2.txt 3 3145728" | ./build/test_generator.out
+    - echo "test3.txt 3 5242880" | ./build/test_generator.out
 
 script:
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_seq_vs_dl_seq.out || travis_terminate 1

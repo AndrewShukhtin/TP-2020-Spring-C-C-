@@ -10,10 +10,10 @@ extern "C" {
 
 #define DL_PATH "./build/lib_coord_mean_dl.so"
 #define TEST_1  "test_data/test1.txt"         // dim = 3, size = 24        | 448B
-#define TEST_2  "test_data/test2.txt"         // dim = 3, size = 8388608   | 148M
+#define TEST_2  "test_data/test2.txt"         // dim = 3, size = 3145728   | 56M
 
 // NOTE(vendroid): Too large test for sequential algortithm
-// #define TEST_3  "test_data/test3.txt"         // dim = 3, size = 33554432  | 593M
+// #define TEST_3  "test_data/test3.txt"         // dim = 3, size = 5242880  | 93M
 
 typedef coord_t *(*dl_create_coord_t)(size_t);
 typedef void (*dl_free_coord_t)(coord_t *);
