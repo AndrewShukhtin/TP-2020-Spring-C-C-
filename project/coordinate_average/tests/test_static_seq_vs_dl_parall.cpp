@@ -15,6 +15,12 @@ extern "C" {
 // NOTE(vendroid): Too large test for sequential algortithm
 // #define TEST_3  "test_data/test3.txt"         // dim = 3, size = 33554432  | 593M
 
+typedef coord_t *(*dl_create_coord_t)(size_t);
+typedef void (*dl_free_coord_t)(coord_t *);
+typedef coord_arrays_t *(*dl_create_coord_arrays_from_file_t)(FILE *);
+typedef void (*dl_free_coord_arrays_t)(coord_arrays_t *);
+typedef int (*dl_compute_each_coordinate_mean_parall_t)(const coord_arrays_t *const, coord_t *);
+
 TEST(static_seq_vs_dl_parall, compare_each_coordinate_mean_test1) {
   void *dl_handle = dlopen(DL_PATH, RTLD_LAZY);
   if (!dl_handle) {
@@ -23,45 +29,48 @@ TEST(static_seq_vs_dl_parall, compare_each_coordinate_mean_test1) {
     return;
   }
 
-  coord_t *(*dl_create_coord)(size_t) = NULL;
-  dl_create_coord = (coord_t *(*)(size_t))dlsym(dl_handle, "create_coord");
-  if (!dl_create_coord) {
-    fprintf(stderr, "%s\n", dlerror());
+  char *error_msg = NULL;
+  auto dl_create_coord = (dl_create_coord_t)dlsym(dl_handle, "create_coord");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  void (*dl_free_coord)(coord_t *) = NULL;
-  dl_free_coord = (void (*)(coord_t *))dlsym(dl_handle, "free_coord");
-  if (!dl_free_coord) {
-    fprintf(stderr, "%s\n", dlerror());
+  auto dl_free_coord =(dl_free_coord_t)dlsym(dl_handle, "free_coord");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  coord_arrays_t *(*dl_create_coord_arrays_from_file)(FILE *) = NULL;
-  dl_create_coord_arrays_from_file = (coord_arrays_t *(*)(FILE *))dlsym(dl_handle, "create_coord_arrays_from_file");
-  if (!dl_create_coord_arrays_from_file) {
-    fprintf(stderr, "%s\n", dlerror());
+  auto dl_create_coord_arrays_from_file
+     = (dl_create_coord_arrays_from_file_t)dlsym(dl_handle, "create_coord_arrays_from_file");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  void (*dl_free_coord_arrays)(coord_arrays_t *) = NULL;
-  dl_free_coord_arrays = (void (*)(coord_arrays_t *))dlsym(dl_handle, "free_coord_arrays");
-  if (!dl_free_coord_arrays) {
-    fprintf(stderr, "%s\n", dlerror());
+  auto dl_free_coord_arrays = (dl_free_coord_arrays_t)dlsym(dl_handle, "free_coord_arrays");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  int (*dl_compute_each_coordinate_mean_parall)(const coord_arrays_t *const, coord_t *) = NULL;
-  dl_compute_each_coordinate_mean_parall
-     = (int (*)(const coord_arrays_t *const, coord_t *))dlsym(dl_handle, "compute_each_coordinate_mean_parall");
+  auto dl_compute_each_coordinate_mean_parall
+     = (dl_compute_each_coordinate_mean_parall_t)dlsym(dl_handle, "compute_each_coordinate_mean_parall");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
+    dlclose(dl_handle);
+    FAIL();
+    return;
+  }
 
   FILE *file = fopen(TEST_1, "r");
   if (!file) {
@@ -145,45 +154,48 @@ TEST(static_seq_vs_dl_parall, compare_each_coordinate_mean_test2) {
     return;
   }
 
-  coord_t *(*dl_create_coord)(size_t) = NULL;
-  dl_create_coord = (coord_t *(*)(size_t))dlsym(dl_handle, "create_coord");
-  if (!dl_create_coord) {
-    fprintf(stderr, "%s\n", dlerror());
+  char *error_msg = NULL;
+  auto dl_create_coord = (dl_create_coord_t)dlsym(dl_handle, "create_coord");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  void (*dl_free_coord)(coord_t *) = NULL;
-  dl_free_coord = (void (*)(coord_t *))dlsym(dl_handle, "free_coord");
-  if (!dl_free_coord) {
-    fprintf(stderr, "%s\n", dlerror());
+  auto dl_free_coord =(dl_free_coord_t)dlsym(dl_handle, "free_coord");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  coord_arrays_t *(*dl_create_coord_arrays_from_file)(FILE *) = NULL;
-  dl_create_coord_arrays_from_file = (coord_arrays_t *(*)(FILE *))dlsym(dl_handle, "create_coord_arrays_from_file");
-  if (!dl_create_coord_arrays_from_file) {
-    fprintf(stderr, "%s\n", dlerror());
+  auto dl_create_coord_arrays_from_file
+     = (dl_create_coord_arrays_from_file_t)dlsym(dl_handle, "create_coord_arrays_from_file");
+  if (((error_msg = dlerror()) != NULL)) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  void (*dl_free_coord_arrays)(coord_arrays_t *) = NULL;
-  dl_free_coord_arrays = (void (*)(coord_arrays_t *))dlsym(dl_handle, "free_coord_arrays");
-  if (!dl_free_coord_arrays) {
-    fprintf(stderr, "%s\n", dlerror());
+  auto dl_free_coord_arrays = (dl_free_coord_arrays_t)dlsym(dl_handle, "free_coord_arrays");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
     dlclose(dl_handle);
     FAIL();
     return;
   }
 
-  int (*dl_compute_each_coordinate_mean_parall)(const coord_arrays_t *const, coord_t *) = NULL;
-  dl_compute_each_coordinate_mean_parall
-     = (int (*)(const coord_arrays_t *const, coord_t *))dlsym(dl_handle, "compute_each_coordinate_mean_parall");
+  auto dl_compute_each_coordinate_mean_parall
+     = (dl_compute_each_coordinate_mean_parall_t)dlsym(dl_handle, "compute_each_coordinate_mean_parall");
+  if ((error_msg = dlerror()) != NULL) {
+    fprintf(stderr, "%s\n", error_msg);
+    dlclose(dl_handle);
+    FAIL();
+    return;
+  }
 
   FILE *file = fopen(TEST_2, "r");
   if (!file) {
