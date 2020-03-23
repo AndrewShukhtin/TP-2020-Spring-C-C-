@@ -13,7 +13,7 @@ if [ "${1}" == "--local" ]; then
 else
 	CPPCHECK="./linters/cppcheck/cppcheck"
 fi
-${CPPCHECK} project --enable=all --error-exitcode=1 -I project/coordinate_average/coord/ project/coordinate_average/coord_arrays/ project/coordinate_average/parallel/ project/coordinate_average/sequential/ project/coordinate_average/tests/ project/coordinate_average/utils/ --suppress=missingIncludeSystem # --check-config
+${CPPCHECK} project --enable=all --error-exitcode=1 -I project/coordinate_average/coord project/coordinate_average/coord_arrays project/coordinate_average/parallel project/coordinate_average/sequential project/coordinate_average/tests project/coordinate_average/utils --suppress=missingIncludeSystem # --check-config
 
 print_header "RUN cpplint.py"
 python2.7 ./linters/cpplint/cpplint.py --extensions=c,cpp project/coordinate_average/coord/* project/coordinate_average/coord_arrays/* project/coordinate_average/parallel/* project/coordinate_average/sequential/* project/coordinate_average/tests/* project/coordinate_average/utils/*

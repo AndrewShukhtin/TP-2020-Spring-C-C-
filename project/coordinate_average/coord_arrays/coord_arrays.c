@@ -4,11 +4,14 @@
 
 coord_arrays_t *create_coord_arrays(size_t dim, size_t size) {
   coord_arrays_t *coord_arrays = (coord_arrays_t *)calloc(1, sizeof(coord_arrays_t));
-  if (!coord_arrays || !size || !dim) {
+  if (!coord_arrays) {
     return  NULL;
   }
 
   coord_arrays->data = (double **)calloc(dim, sizeof(double *));
+  if (!coord_arrays->data) {
+    free(coord_arrays);
+  }
 
   for (size_t coord_idx = 0; coord_idx < dim; ++coord_idx) {
     coord_arrays->data[coord_idx] = (double *)malloc(size * sizeof(double));

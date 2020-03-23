@@ -4,7 +4,7 @@
 
 coord_t *create_coord(size_t dim) {
   coord_t *coord = (coord_t *)calloc(1, sizeof(coord_t));
-  if (!coord || !dim) {
+  if (!coord) {
     return NULL;
   }
 
