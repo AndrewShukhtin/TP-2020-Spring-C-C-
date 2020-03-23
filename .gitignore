@@ -1,0 +1,4 @@
+test_data/*.txt
+project/coordinate_average/tests/test_runtime.cpp
+.DS_Store
+build
