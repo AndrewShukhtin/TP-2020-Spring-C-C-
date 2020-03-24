@@ -13,7 +13,12 @@ typedef struct pthread_mean_value_args_t {
 
 int set_pthread_mean_value_args(pthread_mean_value_args_t *pthread_mean_value_args,
                                                 const double *const arr, size_t size);
-int get_number_of_core_threads(size_t *number_of_threads);
+int get_number_of_logical_cpu(size_t *number_of_logical_cpu);
+int get_number_of_physical_cpu(size_t *number_of_physical_cpu);
+int get_l1cache_line_size(size_t *l1cache_line_size);
+int get_l1dcache_size(size_t *l1dcache_size);
+
+size_t ceil_by_div(size_t value, size_t div);
 size_t min(size_t lhs, size_t rhs);
 
 #endif  // PROJECT_COORDINATE_AVERAGE_UTILS_UTILS_H_

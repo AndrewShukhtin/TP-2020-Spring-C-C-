@@ -5,6 +5,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
+#include <sys/sysctl.h>
 
 int main(void) {
   coord_arrays_t *coord_arrays = create_coord_arrays_from_file(stdin);
@@ -18,12 +21,20 @@ int main(void) {
     return EXIT_FAILURE;
   }
 
-  if (compute_each_coordinate_mean(coord_arrays, coord)) {
-    free_coord_arrays(coord_arrays);
-    free_coord(coord);
-    return EXIT_FAILURE;
-  }
-  printf("coord:        {%2.16lf, %2.16lf, %2.16lf}\n", coord->data[0], coord->data[1], coord->data[2]);
+  // {
+  //   struct  timeval start;
+  //   gettimeofday(&start, NULL);
+  //   if (compute_each_coordinate_mean(coord_arrays, coord)) {
+  //     free_coord_arrays(coord_arrays);
+  //     free_coord(coord);
+  //     return EXIT_FAILURE;
+  //   }
+  //   struct  timeval end;
+  //   gettimeofday(&end, NULL);
+  //   long time = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_usec - start.tv_usec) / 1000;
+  //   printf("coord:        {%2.8lf, %2.8lf, %2.8lf}, time: %ld\n",
+  //    coord->data[0], coord->data[1], coord->data[2], time);
+  // }
 
   coord_t *coord_parall = create_coord(coord_arrays->dim);
   if (!coord_parall) {
@@ -32,13 +43,20 @@ int main(void) {
     return EXIT_FAILURE;
   }
 
-  if (compute_each_coordinate_mean_parall(coord_arrays, coord_parall)) {
-    free_coord_arrays(coord_arrays);
-    free_coord(coord);
-    free_coord(coord_parall);
-    return EXIT_FAILURE;
+  {
+    struct  timeval start;
+    gettimeofday(&start, NULL);
+    if (compute_each_coordinate_mean_parall(coord_arrays, coord)) {
+      free_coord_arrays(coord_arrays);
+      free_coord(coord);
+      return EXIT_FAILURE;
+    }
+    struct  timeval end;
+    gettimeofday(&end, NULL);
+    long time = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_usec - start.tv_usec) / 1000;
+    printf("coord:        {%2.8lf, %2.8lf, %2.8lf}, time: %ld\n",
+     coord->data[0], coord->data[1], coord->data[2], time);
   }
-  printf("coord_parall: {%2.16lf, %2.16lf, %2.16f}\n", coord_parall->data[0], coord_parall->data[1], coord_parall->data[2]);
 
   free_coord_arrays(coord_arrays);
   free_coord(coord);

@@ -12,7 +12,7 @@ TEST(utilities, set_pthread_mean_value_args_invalid_args) {
 }
 
 TEST(utilities, get_number_of_core_threads_invalid_args) {
-  if (!get_number_of_core_threads(NULL)) {
+  if (!get_number_of_logical_cpu(NULL)) {
     FAIL();
   }
 }
