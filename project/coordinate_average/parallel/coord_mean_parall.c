@@ -70,19 +70,24 @@ static int compute_mean_by_coordinate_parall(const double *const arr, size_t siz
     return EXIT_FAILURE;
   }
 
+  pthread_attr_t attr;
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
   for (size_t id = 0; id < mean_value_args.number_of_threads; ++id) {
     thread_ids[id] = id;
 
-    if (pthread_create(&threads[id], NULL, pthread_mean_value, (void *)&thread_ids[id])) {
+    if (pthread_create(&threads[id], &attr, pthread_mean_value, (void *)&thread_ids[id])) {
       free(thread_ids);
       free(threads);
       return EXIT_FAILURE;
     }
   }
-  free(thread_ids);
+  pthread_attr_destroy(&attr);
 
+  void *status;
   for (size_t id = 0; id < mean_value_args.number_of_threads; ++id) {
-    if (pthread_join(threads[id], NULL)) {
+    if (pthread_join(threads[id], &status)) {
       free(threads);
       return EXIT_FAILURE;
     }
@@ -90,6 +95,7 @@ static int compute_mean_by_coordinate_parall(const double *const arr, size_t siz
 
   *mean_value = mean_value_args.sum / size;
   free(threads);
+  free(thread_ids);
 
   return EXIT_SUCCESS;
 }
@@ -121,7 +127,7 @@ static void *pthread_mean_value(void *arg) {
   for (size_t idx = 0; idx < ceil_parts_cout; ++idx) {
     size_t cache_begin = begin_idx + idx * cache_size;
     size_t cache_end = min(begin_idx + (idx + 1) * cache_size, end_idx);
-    
+
     memcpy(cache, mean_value_args.arr + cache_begin, (cache_end - cache_begin) * sizeof(double));
 
     for (size_t cache_idx = 0; cache_idx < cache_end - cache_begin; ++cache_idx) {
