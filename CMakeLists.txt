@@ -3,8 +3,8 @@ project(hw2)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "--coverage")
-set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -Wpedantic --coverage")
+#set(COVERAGE_FLAG "--coverage")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -Wpedantic")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror --pedantic")
 
 include_directories(
@@ -27,6 +27,15 @@ include_directories(${GTEST_INLCUDE_DIRS})
 
 add_library(_coord_mean_dl MODULE ${COORD_MEAN_SRC})
 add_library(_coord_mean_static STATIC ${COORD_MEAN_SRC})
+
+find_package(benchmark QUIET)
+if (benchmark_FOUND)
+  add_executable(gbenchmark.out project/coordinate_average/benchmark.cpp)
+  target_link_libraries(gbenchmark.out
+                                      benchmark::benchmark
+                                      _coord_mean_static
+                                      pthread)
+endif()
 
 # main project coordinate_avarage
 add_executable(coordinate_avarage.out project/coordinate_average/main.c)

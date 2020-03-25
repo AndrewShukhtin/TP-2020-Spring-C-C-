@@ -38,7 +38,7 @@ int get_number_of_logical_cpu(size_t *number_of_logical_cpu) {
     return EXIT_FAILURE;
   }
 
-  long res = 0l;
+  long res = 0;
 #if defined(__linux__)
   res = sysconf(_SC_NPROCESSORS_ONLN);
   if (res == SC_ERROR) {
@@ -60,7 +60,7 @@ int get_number_of_physical_cpu(size_t *number_of_physical_cpu) {
     return EXIT_FAILURE;
   }
 
-  int res = 0l;
+  int res = 0;
 #if defined(__linux__)
   res = get_nprocs_conf();
 #elif defined(__APPLE__)
@@ -81,7 +81,7 @@ int get_l1cache_line_size(size_t *l1cache_line_size) {
     return EXIT_FAILURE;
   }
 
-  long res = 0l;
+  long res = 0;
 #if defined(__linux__)
   res = sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
   if (res == SC_ERROR) {
@@ -105,7 +105,7 @@ int get_l1dcache_size(size_t *l1dcache_size) {
     return EXIT_FAILURE;
   }
 
-  long res = 0l;
+  long res = 0;
 #if defined(__linux__)
   res = sysconf(_SC_LEVEL1_DCACHE_SIZE);
   if (res == SC_ERROR) {
