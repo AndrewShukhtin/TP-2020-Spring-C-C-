@@ -46,6 +46,7 @@ script:
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_seq_vs_dl_parall.out || travis_terminate 1
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_parall_vs_dl_parall.out || travis_terminate 1
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_utils.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes cat test_data/test3.txt | ./build/coordinate_avarage.out || travis_terminate 1
 
 after_script:
     - lcov —capture —directory ./CMakeFiles/task_library.dir/project/src —output-file coverage.info
