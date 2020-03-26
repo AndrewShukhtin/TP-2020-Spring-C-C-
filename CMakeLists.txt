@@ -3,10 +3,8 @@ project(hw2)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "--coverage")
-set(COVERAGE_FLAG "--coverage")
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -Wpedantic")
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror --pedantic")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror --pedantic")
 
 include_directories(
                     project/coordinate_average/coord
@@ -82,10 +80,65 @@ target_link_libraries(test_static_parall_vs_dl_parall.out
                                             ${CMAKE_DL_LIBS}
                                             pthread)
 
-# UTILITIES TESTS
-add_executable(test_utils.out
-                              project/coordinate_average/tests/test_utils.cpp
-                              project/coordinate_average/utils/utils.c)
-target_link_libraries(test_utils.out
+
+# COORD TESTS
+add_executable(test_coord.out
+                              project/coordinate_average/tests/test_coord.cpp
+                              project/coordinate_average/coord/coord.c)
+set_target_properties(test_coord.out PROPERTIES  CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+# target_compile_options(test_coord.out INTERFACE
+#                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+#                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+target_link_libraries(test_coord.out
                               ${GTEST_LIBRARIES}
                               pthread)
+
+
+# # COORD_ARRAYS TESTS
+# add_executable(test_coord_arrays.out
+#                               project/coordinate_average/tests/test_coord_arrays.cpp
+#                               project/coordinate_average/coord_arrays/coord_arrays.c)
+# target_link_libraries(test_coord_arrays.out
+#                               ${GTEST_LIBRARIES}
+#                               pthread)
+# target_compile_options(test_coord_arrays.out INTERFACE
+#                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+#                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+
+
+# # COORD_MEAN TESTS
+# add_executable(test_coord_mean.out
+#                               project/coordinate_average/tests/test_coord_mean.cpp
+#                               project/coordinate_average/coord/coord.c
+#                               project/coordinate_average/coord_arrays/coord_arrays.c
+#                               project/coordinate_average/sequential/coord_mean.c)
+# target_link_libraries(test_coord_mean.out
+#                               ${GTEST_LIBRARIES}
+#                               pthread)
+# target_compile_options(test_coord_mean.out INTERFACE
+#                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+#                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+
+
+# # COORD_MEAN_PARALL TESTS
+# add_executable(test_coord_mean_parall.out
+#                               project/coordinate_average/tests/test_coord_mean_parall.cpp 
+#                               ${COORD_MEAN_SRC})
+# target_link_libraries(test_coord_mean_parall.out
+#                               ${GTEST_LIBRARIES}
+#                               pthread)
+# target_compile_options(test_coord_mean_parall.out INTERFACE
+#                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+#                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+
+
+# # UTILITIES TESTS
+# add_executable(test_utils.out
+#                               project/coordinate_average/tests/test_utils.cpp
+#                               project/coordinate_average/utils/utils.c)
+# target_link_libraries(test_utils.out
+#                               ${GTEST_LIBRARIES}
+#                               pthread)
+# target_compile_options(test_utils.out INTERFACE
+#                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+#                               $<$<COMPILE_LANGUAGE:C>:--coverage>)

@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#define SCANF_ONE_CHAR_SUCCESS 1
+
 coord_arrays_t *create_coord_arrays(size_t dim, size_t size) {
   coord_arrays_t *coord_arrays = (coord_arrays_t *)calloc(1, sizeof(coord_arrays_t));
   if (!coord_arrays) {
@@ -18,6 +20,7 @@ coord_arrays_t *create_coord_arrays(size_t dim, size_t size) {
 
     if (!coord_arrays->data[coord_idx]) {
       free_coord_arrays(coord_arrays);
+      return NULL;
     }
   }
 
@@ -29,12 +32,12 @@ coord_arrays_t *create_coord_arrays(size_t dim, size_t size) {
 
 coord_arrays_t *create_coord_arrays_from_file(FILE *file) {
   size_t dim = 0;
-  if (!fscanf(file, "%zu", &dim)) {
+  if (fscanf(file, "%zu", &dim) != SCANF_ONE_CHAR_SUCCESS) {
     return NULL;
   }
 
   size_t size = 0;
-  if (!fscanf(file, "%zu", &size)) {
+  if (fscanf(file, "%zu", &size) != SCANF_ONE_CHAR_SUCCESS) {
     return NULL;
   }
 
@@ -45,8 +48,9 @@ coord_arrays_t *create_coord_arrays_from_file(FILE *file) {
 
   for (size_t coord_idx = 0; coord_idx < dim; ++coord_idx) {
     for (size_t idx = 0; idx < size; ++idx) {
-      if (!fscanf(file, "%lf", &coord_arrays->data[coord_idx][idx])) {
+      if (fscanf(file, "%lf", &coord_arrays->data[coord_idx][idx]) != SCANF_ONE_CHAR_SUCCESS) {
         free_coord_arrays(coord_arrays);
+        return NULL;
       }
     }
   }

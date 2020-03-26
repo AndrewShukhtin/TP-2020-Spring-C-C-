@@ -32,7 +32,7 @@ int main(void) {
     struct  timeval end;
     gettimeofday(&end, NULL);
     long time = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_usec - start.tv_usec) / 1000;
-    printf("coord:        {%2.8lf, %2.8lf, %2.8lf}, time: %ld\n",
+    printf("coord:        {%2.16lf, %2.16lf, %2.16lf}, time: %ld\n",
      coord->data[0], coord->data[1], coord->data[2], time);
   }
 
@@ -54,7 +54,7 @@ int main(void) {
     struct  timeval end;
     gettimeofday(&end, NULL);
     long time = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_usec - start.tv_usec) / 1000;
-    printf("coord:        {%2.8lf, %2.8lf, %2.8lf}, time: %ld\n",
+    printf("coord:        {%2.16lf, %2.16lf, %2.16lf}, time: %ld\n",
      coord->data[0], coord->data[1], coord->data[2], time);
   }
 
