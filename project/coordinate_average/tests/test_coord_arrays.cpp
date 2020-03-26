@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <limits.h>
 
 extern "C" {
   #include "coord_arrays.h"
