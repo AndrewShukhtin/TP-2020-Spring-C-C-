@@ -13,6 +13,7 @@ coord_arrays_t *create_coord_arrays(size_t dim, size_t size) {
   coord_arrays->data = (double **)calloc(dim, sizeof(double *));
   if (!coord_arrays->data) {
     free(coord_arrays);
+    return NULL;
   }
 
   for (size_t coord_idx = 0; coord_idx < dim; ++coord_idx) {
