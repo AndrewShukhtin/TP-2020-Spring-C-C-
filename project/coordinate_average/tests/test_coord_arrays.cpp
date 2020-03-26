@@ -23,7 +23,7 @@ TEST(coord_arrays, create_coord_arrays) {
 }
 
 TEST(coord_arrays, create_coord_arrays_invalid_dim) {
-  const size_t dim = SIZE_MAX; 
+  const size_t dim = SIZE_MAX;
   const size_t size = 24;
   coord_arrays_t *coord_arrays = create_coord_arrays(dim, size);
   if (coord_arrays != NULL) {
