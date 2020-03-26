@@ -45,11 +45,36 @@ script:
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_parall_vs_dl_seq.out || travis_terminate 1
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_seq_vs_dl_parall.out || travis_terminate 1
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_parall_vs_dl_parall.out || travis_terminate 1
-    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_utils.out || travis_terminate 1
     - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes cat test_data/test3.txt | ./build/coordinate_avarage.out || travis_terminate 1
+    # coverage test
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord_arrays.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord_mean.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord_mean_parall.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_utils.out || travis_terminate 1
 
 after_script:
-    - lcov —capture —directory ./CMakeFiles/task_library.dir/project/src —output-file coverage.info
+    # test_coord
+    - lcov —capture —directory ./build/CMakeFiles/test_coord.out.dir/project/coordinate_average/coord —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord.out.dir/project/coordinate_average/tests —output-file coverage.info
+    # test_coord_arrays
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_arrays.out.dir/project/coordinate_average/coord_arrays —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_arrays.out.dir/project/coordinate_average/tests —output-file coverage.info
+    # test_coord_mean
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord_arrays —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/sequential —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/tests —output-file coverage.info
+    # test_coord_mean_parall
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord_arrays —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/parallel —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/sequential —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/tests —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/utils —output-file coverage.info
+    # test_utils
+    - lcov —capture —directory ./build/CMakeFiles/test_utils.out.dir/project/coordinate_average/utils —output-file coverage.info
+    - lcov —capture —directory ./build/CMakeFiles/test_utils.out.dir/project/coordinate_average/tests —output-file coverage.info
     - bash <(curl -s https://codecov.io/bash)
     - rm -rf build
     - cd test_data

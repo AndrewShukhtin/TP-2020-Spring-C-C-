@@ -36,13 +36,18 @@ if (benchmark_FOUND)
                                       pthread)
 endif()
 
+#random test generator
+add_executable(test_generator.out test_data/test_generator.cpp)
+target_link_options(test_generator.out PRIVATE
+                              $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CXX_FLAGS}>
+                              $<$<COMPILE_LANGUAGE:C>:${CMAKE_C_FLAGS}>)
+
 # main project coordinate_avarage
 add_executable(coordinate_avarage.out project/coordinate_average/main.c)
 target_link_libraries(coordinate_avarage.out
                                             _coord_mean_static
                                             pthread)
 
-add_executable(test_generator.out test_data/test_generator.cpp)
 
 # STATIC SEQUENTIAL VS. DL SEQUENTIAL
 add_executable(test_static_seq_vs_dl_seq.out
@@ -85,9 +90,12 @@ target_link_libraries(test_static_parall_vs_dl_parall.out
 add_executable(test_coord.out
                               project/coordinate_average/tests/test_coord.cpp
                               project/coordinate_average/coord/coord.c)
-target_compile_options(test_coord.out INTERFACE
+target_compile_options(test_coord.out PRIVATE
                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+target_link_options(test_coord.out PRIVATE
+                              $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+                              $<$<COMPILE_LANGUAGE:C>:--coverage>)                              
 target_link_libraries(test_coord.out
                               ${GTEST_LIBRARIES}
                               pthread)
@@ -97,9 +105,12 @@ target_link_libraries(test_coord.out
 add_executable(test_coord_arrays.out
                               project/coordinate_average/tests/test_coord_arrays.cpp
                               project/coordinate_average/coord_arrays/coord_arrays.c)
-target_compile_options(test_coord_arrays.out INTERFACE
+target_compile_options(test_coord_arrays.out PRIVATE
                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+target_link_options(test_coord_arrays.out PRIVATE
+                              $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+                              $<$<COMPILE_LANGUAGE:C>:--coverage>)      
 target_link_libraries(test_coord_arrays.out
                               ${GTEST_LIBRARIES}
                               pthread)
@@ -111,9 +122,13 @@ add_executable(test_coord_mean.out
                               project/coordinate_average/coord/coord.c
                               project/coordinate_average/coord_arrays/coord_arrays.c
                               project/coordinate_average/sequential/coord_mean.c)
-target_compile_options(test_coord_mean.out INTERFACE
+target_compile_options(test_coord_mean.out PRIVATE
                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
+target_link_options(test_coord_mean.out PRIVATE
+                              $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+                              $<$<COMPILE_LANGUAGE:C>:--coverage>)   
+
 target_link_libraries(test_coord_mean.out
                               ${GTEST_LIBRARIES}
                               pthread)
@@ -123,7 +138,10 @@ target_link_libraries(test_coord_mean.out
 add_executable(test_coord_mean_parall.out
                               project/coordinate_average/tests/test_coord_mean_parall.cpp 
                               ${COORD_MEAN_SRC})
-target_compile_options(test_coord_mean_parall.out INTERFACE
+target_compile_options(test_coord_mean_parall.out PRIVATE
+                              $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+                              $<$<COMPILE_LANGUAGE:C>:--coverage>)
+target_link_options(test_coord_mean_parall.out  PRIVATE
                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
 target_link_libraries(test_coord_mean_parall.out
@@ -135,7 +153,10 @@ target_link_libraries(test_coord_mean_parall.out
 add_executable(test_utils.out
                               project/coordinate_average/tests/test_utils.cpp
                               project/coordinate_average/utils/utils.c)
-target_compile_options(test_utils.out INTERFACE
+target_compile_options(test_utils.out PRIVATE
+                              $<$<COMPILE_LANGUAGE:CXX>:--coverage>
+                              $<$<COMPILE_LANGUAGE:C>:--coverage>)
+target_link_options(test_utils.out  PRIVATE
                               $<$<COMPILE_LANGUAGE:CXX>:--coverage>
                               $<$<COMPILE_LANGUAGE:C>:--coverage>)
 target_link_libraries(test_utils.out
