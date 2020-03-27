@@ -56,21 +56,21 @@ script:
 
 after_script:
     # test_coord
-    - lcov —capture —directory ./build/CMakeFiles/test_coord.out.dir/project/coordinate_average/coord —output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord.out.dir/project/coordinate_average/coord --output-file coverage.info
     # test_coord_arrays
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_arrays.out.dir/project/coordinate_average/coord_arrays —output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_arrays.out.dir/project/coordinate_average/coord_arrays --output-file coverage.info
     # test_coord_mean
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord —output-file coverage.info
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord_arrays —output-file coverage.info
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/sequential —output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord_arrays --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/sequential --output-file coverage.info
     # test_coord_mean_parall
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord —output-file coverage.info
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord_arrays —output-file coverage.info
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/parallel —output-file coverage.info
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/sequential —output-file coverage.info
-    - lcov —capture —directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/utils —output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord_arrays --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/parallel --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/sequential --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/utils --output-file coverage.info
     # test_utils
-    - lcov —capture —directory ./build/CMakeFiles/test_utils.out.dir/project/coordinate_average/utils —output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_utils.out.dir/project/coordinate_average/utils --output-file coverage.info
     - bash <(curl -s https://codecov.io/bash)
     - rm -rf build
     - cd test_data
