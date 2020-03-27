@@ -115,18 +115,18 @@ static void *pthread_mean_value(void *arg) {
     pthread_exit(NULL);
   }
 
-  size_t id = *((size_t *)arg);
+  const size_t id = *((size_t *)arg);
   const size_t begin_idx = mean_value_args.offset * id;
   const size_t end_idx = min(mean_value_args.offset * (id + 1), mean_value_args.size);
-  size_t size = end_idx - begin_idx;
+  const size_t size = end_idx - begin_idx;
 
-  size_t cache_size = l1dsize_per_thread / sizeof(double);
-  size_t ceil_parts_cout = ceil_by_div(size, cache_size);
+  const size_t cache_size = l1dsize_per_thread / sizeof(double);
+  const size_t ceil_parts_cout = ceil_by_div(size, cache_size);
 
   double sum = 0.0;
   for (size_t idx = 0; idx < ceil_parts_cout; ++idx) {
-    size_t cache_begin = begin_idx + idx * cache_size;
-    size_t cache_end = min(begin_idx + (idx + 1) * cache_size, end_idx);
+    const size_t cache_begin = begin_idx + idx * cache_size;
+    const size_t cache_end = min(begin_idx + (idx + 1) * cache_size, end_idx);
 
     memcpy(cache, mean_value_args.arr + cache_begin, (cache_end - cache_begin) * sizeof(double));
 
