@@ -14,7 +14,8 @@ int main(void) {
   if (!coord_arrays) {
     return EXIT_FAILURE;
   }
-
+  printf("%s\n", "finished read from file");
+  
   coord_t *coord = create_coord(coord_arrays->dim);
   if (!coord) {
     free_coord_arrays(coord_arrays);

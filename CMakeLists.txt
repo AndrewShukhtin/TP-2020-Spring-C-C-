@@ -27,15 +27,6 @@ include_directories(${GTEST_INLCUDE_DIRS})
 add_library(_coord_mean_dl MODULE ${COORD_MEAN_SRC})
 add_library(_coord_mean_static STATIC ${COORD_MEAN_SRC})
 
-find_package(benchmark QUIET)
-if (benchmark_FOUND)
-  add_executable(gbenchmark.out project/coordinate_average/benchmark.cpp)
-  target_link_libraries(gbenchmark.out
-                                      benchmark::benchmark
-                                      _coord_mean_static
-                                      pthread)
-endif()
-
 #random test generator
 add_executable(test_generator.out test_data/test_generator.cpp)
 
