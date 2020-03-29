@@ -1,0 +1,12 @@
+test_data/*.txt
+
+!test_data/test_mean.txt
+!test_data/test_invalid_dim.txt
+!test_data/test_invalid_size.txt
+!test_data/test_invalid_data.txt
+
+project/coordinate_average/benchmark.cpp
+
+.DS_Store
+build
+.vscode/

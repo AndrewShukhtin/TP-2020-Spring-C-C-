@@ -1,0 +1,77 @@
+dist:     bionic
+sudo:     required
+
+language: c
+
+os: linux
+
+compiler: gcc
+
+env:
+  global:
+    - CODECOV_TOKEN="83d8152e-4406-4ced-8d01-5782b464d196"
+
+install:
+    - sudo apt-get update
+    - sudo apt-get install valgrind
+    - sudo apt-get install clang-format
+    - sudo apt-get install lcov
+    - sudo apt-get install libstdc++6
+    - sudo apt-get install cmake
+    - cmake --version
+    - sudo apt-get install cppcheck
+    - cppcheck --version
+    # Google tests
+    - sudo apt-get install libgtest-dev
+    - cd /usr/src/gtest
+    - sudo cmake .
+    - sudo make
+    - sudo cp *.a /usr/lib
+    - cd -
+
+before_script:
+    - ./linters/run.sh --local || travis_terminate 1
+    - mkdir build
+    - cd build
+    - cmake .. || travis_terminate 1
+    - make || travis_terminate 1
+    - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+    - cd ..
+    - echo "test1.txt 3 24" | ./build/test_generator.out
+    - echo "test2.txt 3 262144" | ./build/test_generator.out
+    - echo "test3.txt 3 1048576" | ./build/test_generator.out
+
+script:
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_seq_vs_dl_seq.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_parall_vs_dl_seq.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_seq_vs_dl_parall.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_static_parall_vs_dl_parall.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes cat test_data/test3.txt | ./build/coordinate_avarage.out || travis_terminate 1
+    # coverage test
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord_arrays.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord_mean.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_coord_mean_parall.out || travis_terminate 1
+    - valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --leak-resolution=med  --track-origins=yes ./build/test_utils.out || travis_terminate 1
+
+after_script:
+    # test_coord
+    - lcov --capture --directory ./build/CMakeFiles/test_coord.out.dir/project/coordinate_average/coord --output-file coverage.info
+    # test_coord_arrays
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_arrays.out.dir/project/coordinate_average/coord_arrays --output-file coverage.info
+    # test_coord_mean
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/coord_arrays --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean.out.dir/project/coordinate_average/sequential --output-file coverage.info
+    # test_coord_mean_parall
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/coord_arrays --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/parallel --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/sequential --output-file coverage.info
+    - lcov --capture --directory ./build/CMakeFiles/test_coord_mean_parall.out.dir/project/coordinate_average/utils --output-file coverage.info
+    # test_utils
+    - lcov --capture --directory ./build/CMakeFiles/test_utils.out.dir/project/coordinate_average/utils --output-file coverage.info
+    - bash <(curl -s https://codecov.io/bash)
+    - rm -rf build
+    - cd test_data
+    - rm -rf *.txt
