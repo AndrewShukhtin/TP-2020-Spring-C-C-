@@ -10,7 +10,7 @@ extern "C" {
 
 #define DL_PATH "./build/lib_coord_mean_dl.so"
 #define TEST_1  "test_data/test1.txt"         // dim = 3, size = 24        | 448B
-#define TEST_2  "test_data/test2.txt"         // dim = 3, size = 262144   | 4.6M
+#define TEST_2  "test_data/test2.txt"         // dim = 3, size = 262144    | 4.9M
 
 // NOTE(vendroid): Too large test for sequential algortithm
 // #define TEST_3  "test_data/test3.txt"         // dim = 3, size = 1048576  | 19M
